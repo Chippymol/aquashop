@@ -1,0 +1,44 @@
+from django.db import models
+from django.urls import reverse
+
+
+# Create your models here.
+class Category(models.Model):
+    cat_name = models.CharField(max_length=250, unique=True)
+    slug = models.SlugField(max_length=250, unique=True)
+    des = models.TextField(blank=True)
+    image = models.ImageField(upload_to='category_img', blank=True)
+
+    class Meta:
+        ordering = ('cat_name',)
+        verbose_name = 'category'
+        verbose_name_plural = 'categories'
+
+    def get_url(self):
+        return reverse('shop_app:product_category',args=[self.slug])
+
+    def __str__(self):
+        return '{}'.format(self.cat_name)
+
+
+class product(models.Model):
+    pro_name = models.CharField(max_length=250, unique=True)
+    slug = models.SlugField(max_length=250, unique=True)
+    des = models.TextField(blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='product_img', blank=True)
+    stock = models.IntegerField()
+    available = models.BooleanField(default=True)
+    created = models.DateTimeField(auto_now_add=True)
+    update = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('pro_name',)
+        verbose_name = 'product'
+        verbose_name_plural = 'products'
+    def get_url(self):
+        return reverse('shop_app:product_detail',args=[self.category.slug,self.slug])
+
+    def __str__(self):
+        return '{}'.format(self.pro_name)

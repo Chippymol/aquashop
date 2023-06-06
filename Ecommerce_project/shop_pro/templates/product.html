@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+{{ product.description|truncatewords:155}}
+{% endblock %}
+{% block title %}
+{% if category %}
+    {{ product.pro_name}} -Aqua Petshop...
+{% endif %}
+{% endblock %}
+{% block content %}
+<div class="row my_prod">
+    <div class="mx-auto">
+        <p><a href="{% url 'shop_app:all_category' %}"> Home</a>|
+            <a href="{{product.Category.get_url}}">{{product.category}}</a> {{product.pro_name}}</p>
+    </div>
+</div>
+<div class="container">
+<br>
+<div class="row">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+        <div style="min-width:18rem;">
+            <img src="{{product.image.url}}" alt="{{product.pro_name}}">
+        </div>
+    </div>
+
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+            <div>
+            <h1 class="my_pro_title"><b>{{product.pro_name}}</b></h1>
+            <p class="text-justify my_pro_text">${{product.price}}</p>
+                <p class="my_pro_text"><b>{{product.pro_name}}</b></p>
+            <p class="text-justify my_pro_text">{{product.des}}</p>
+            {% if product.stock <= 0 %}
+            <h4 class="text-justify my_pro_text">Out of Stock</h4>
+            {% else%}
+            <a  class="btn btn-secondary" href="{% url 'cart_app:add_cart' product.id %}">ADD TO CART</a>
+            {%endif%}
+        </div>
+
+</div>
+</div>
+</div><br>
+
+{% endblock %}

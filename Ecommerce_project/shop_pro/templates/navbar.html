@@ -1,0 +1,39 @@
+
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #f5b337;">
+  <!-- Navbar content -->
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'shop_app:all_category' %}">Aqua Petshop</a>
+        </li>
+        <li class="nav-item dropdown {% if 'shop_app' in request.path %} active {% endif %}">
+          <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            All Product
+          </a>
+          <ul class="dropdown-menu">
+                {% for cat in links %}
+            <li><a class="dropdown-item" href="{{cat.get_url}}">{{cat.cat_name}}</a></li>
+              {% endfor %}
+          </ul>
+        </li>
+        {% if item_count > 0 %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'cart_app:cart_detail' %}"><i class="fa fa-shopping-cart" ></i>{{item_count}}</a>
+        </li>
+        {% endif %}
+      </ul>
+      <form action="{% url 'search_app:search_result' %}" method="get" class="d-flex" role="search">
+        {% csrf_token %}
+        <input class="form-control me-2" type="search" placeholder="Search" name="q" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit"><i class="fa fa-search"></i></button>
+      </form>
+    </div>
+  </div>
+  </nav>
+
+
+
